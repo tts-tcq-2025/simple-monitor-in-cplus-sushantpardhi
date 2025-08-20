@@ -2,18 +2,19 @@
 #include <iostream>
 using namespace std;
 
-bool batteryIsOk(float temperature, float soc, float chargeRate) {
-  if(temperature < 0 || temperature > 45) {
-    cout << "Temperature out of range!\n";
-    return false;
-  } else if(soc < 20 || soc > 80) {
-    cout << "State of Charge out of range!\n";
-    return false;
-  } else if(chargeRate > 0.8) {
-    cout << "Charge Rate out of range!\n";
+bool isInRange(float value, float min, float max, const char* parameterName) {
+  if (value < min || value > max) {
+    cout << parameterName << " out of range!\n";
     return false;
   }
   return true;
+}
+
+bool batteryIsOk(float temperature, float soc, float chargeRate) {
+  bool tempOk = isInRange(temperature, 0, 45, "Temperature");
+  bool socOk = isInRange(soc, 20, 80, "State of Charge");
+  bool chargeRateOk = isInRange(chargeRate, 0, 0.8, "Charge Rate");
+  return tempOk && socOk && chargeRateOk;
 }
 
 int main() {
